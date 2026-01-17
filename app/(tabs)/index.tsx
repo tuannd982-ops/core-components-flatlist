@@ -1,98 +1,117 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+const DATA = [
+  {
+    id: "1",
+    title: "Bước 1 Xác định nhu cầu khách hàng",
+    description: "Vũ Văn Hoàng sắp đến hạn lúc 01/08/2020 9:00",
+    time: "20/08/2020, 06:00",
+    icon: "checkmark",
+  },
+  {
+    id: "2",
+    title: "Bạn có khách hàng mới!",
+    description: "Chúc mừng bạn, bạn có khách hàng mới. Hãy mau chóng liên lạc ngay.",
+    time: "20/08/2020, 06:00",
+    icon: "people",
+  },
+  {
+    id: "3",
+    title: "Khách hàng được chia sẻ bị trùng",
+    description: "Rất tiếc, khách hàng được chia sẻ đã tồn tại trên hệ thống.",
+    time: "20/08/2020, 06:00",
+    icon: "people",
+  },
+  {
+    id: "4",
+    title: "Công việc sắp đến hạn trong hôm nay",
+    description: "Bạn có 17 công việc sắp đến hạn trong hôm nay.",
+    time: "20/08/2020, 06:00",
+    icon: "checkmark",
+  },
+  {
+    id: "5",
+    title: "Công việc đã quá hạn",
+    description: "Bạn có 17 công việc bị quá hạn. Hãy kiểm tra và lên kế hoạch.",
+    time: "20/08/2020, 06:00",
+    icon: "checkmark",
+  },
+];
 
-export default function HomeScreen() {
+export default function NotificationScreen() {
+  const renderItem = ({ item }: any) => (
+    <View style={styles.item}>
+      <View style={styles.iconWrap}>
+        <Ionicons name={item.icon} size={18} color="#fff" />
+      </View>
+
+      <View style={styles.textWrap}>
+        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.desc}>{item.description}</Text>
+        <Text style={styles.time}>{item.time}</Text>
+      </View>
+    </View>
+  );
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <View style={styles.container}>
+      <Text style={styles.header}>Thông báo</Text>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <FlatList
+        data={DATA}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 12,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  header: {
+    fontSize: 20,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 12,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  item: {
+    flexDirection: "row",
+    backgroundColor: "#f3f8ff",
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  iconWrap: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "#2f80ed",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 4,
+  },
+  textWrap: {
+    flex: 1,
+    marginLeft: 12,
+  },
+  title: {
+    fontSize: 15,
+    fontWeight: "600",
+  },
+  desc: {
+    fontSize: 13,
+    color: "#444",
+    marginTop: 2,
+  },
+  time: {
+    fontSize: 12,
+    color: "#888",
+    marginTop: 4,
   },
 });
